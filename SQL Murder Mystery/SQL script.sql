@@ -1,3 +1,5 @@
+--SQL Murder Mystery
+
 --You vaguely remember that the crime was a murder that occurred sometime on Jan.15, 2018 and that it took place in SQL City.
 --First step: take a look at the crime scene report.
 
