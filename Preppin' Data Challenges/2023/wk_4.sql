@@ -19,7 +19,7 @@ from pd2023_wk04_april
 union all
 select *
     ,'May' as May
-from pd2023_wk04_january
+from pd2023_wk04_may
 union all
 select *
     ,'June' as Month
@@ -49,10 +49,23 @@ select *
     ,'December' as Month
 from pd2023_wk04_december
 )
+
+,months_pivoted as (
 select *
-    ,to_date(Joining_day||'-'||Month||'-2023', 'DD-MMMM-YYYY') as "Joining Date"
 from months
 pivot(
 MAX("VALUE")
 for Demographic in ('Ethnicity','Account Type','Date of Birth')
 ) as headers
+)
+
+select ID 
+    ,min(to_date(Joining_day||'-'||Month||'-2023', 'DD-MMMM-YYYY')) as "Joining Date"
+    ,"'Ethnicity'"
+    ,"'Account Type'"
+    ,"'Date of Birth'"
+from months_pivoted
+group by ID
+    ,"'Ethnicity'"
+    ,"'Account Type'"
+    ,"'Date of Birth'"
