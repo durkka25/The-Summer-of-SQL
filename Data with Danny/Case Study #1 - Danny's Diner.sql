@@ -32,6 +32,14 @@ from cte
 where order_sequence=1;
 
 --4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+select product_name
+    ,count(product_name) as times_purchased
+from sales
+join menu on sales.product_id=menu.product_id
+group by product_name
+order by count(product_name) desc
+limit 1;
+
 --5. Which item was the most popular for each customer?
 with cte as (
     select customer_id 
