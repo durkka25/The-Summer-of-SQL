@@ -78,11 +78,31 @@ with cte as (
 select customer_id
     ,product_name as first_purchase_as_member
 from cte
-where ranking = 1
-
-
+where ranking = 1;
 
 --7. Which item was purchased just before the customer became a member?
+with cte as (
+    select sales.customer_id
+        ,order_date
+        ,sales.product_id
+        ,product_name
+        ,dense_rank() over(
+            partition by sales.customer_id
+            order by order_date desc
+        ) as ranking
+        ,join_date
+    from sales
+    join members on members.customer_id=sales.customer_id
+    join menu on sales.product_id=menu.product_id
+    where order_date < join_date
+)
+select customer_id
+    ,product_name as last_purchase_before_becoming_member
+from cte
+where ranking = 1;
+
+
+
 --8. What is the total items and amount spent for each member before they became a member?
 --9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 --10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customers A and B have at the end of January?
