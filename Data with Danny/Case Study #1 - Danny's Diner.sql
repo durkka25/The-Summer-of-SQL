@@ -101,8 +101,17 @@ select customer_id
 from cte
 where ranking = 1;
 
-
-
 --8. What is the total items and amount spent for each member before they became a member?
+select sales.customer_id
+    ,count(sales.product_id) as total_items
+    ,sum(price) as total_amount_spent
+from sales
+join members on members.customer_id=sales.customer_id
+join menu on sales.product_id=menu.product_id
+where order_date < join_date
+group by sales.customer_id;
+
+
+
 --9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 --10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customers A and B have at the end of January?
